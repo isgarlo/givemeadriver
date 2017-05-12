@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.jcabi</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.48.4</version>
+    </parent>
+
+    <groupId>io.github.ilozano</groupId>
+    <artifactId>givemeadriver</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+
+        <selenium.version>3.4.0</selenium.version>
+        <webdrivermanager.version>1.6.2</webdrivermanager.version>
+        <slf4j-simple.version>1.7.25</slf4j-simple.version>
+        <commons-configuration2.version>2.0</commons-configuration2.version>
+        <log4j-api.version>2.7</log4j-api.version>
+        <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <guava.version>21.0</guava.version>
+    </properties>
+
+    <name>GiveMeADriver</name>
+    <description>
+        Get a local or remote WebDriver instance by setting System properties.
+    </description>
+    <url>https://github.com/isgarlo/givemeadriver</url>
+
+    <developers>
+        <developer>
+            <id>isgarlo</id>
+            <name>Israel Lozano</name>
+            <email>isgarlo@gmail.com</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl-2.1.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:github.com:isgarlo/givemeadriver.git</connection>
+        <developerConnection>scm:git:github.com:isgarlo/givemeadriver.git</developerConnection>
+        <url>https://github.com/isgarlo/givemeadriver</url>
+        <tag>develop</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/isgarlo/givemeadriver/issues</url>
+    </issueManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-configuration2</artifactId>
+            <version>${commons-configuration2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
