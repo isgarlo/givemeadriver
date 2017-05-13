@@ -29,13 +29,13 @@ Once the dependency is set, just pass the parameters to your test runner making 
 ```
 Then, simply get your WebDriver instance:
 ```java
-	@Test
-	public void test() {
-		WebDriver driver = GiveMeADriver.create();
-	}
+@Test
+public void test() {
+	WebDriver driver = GiveMeADriver.create();
+}
 ```
 ## Special capabilities
- - **capabilities.remote**: remote url. If not set, GiveMeADriver.create() will try to instantiate a local ChromeDriver.
+ - **capabilities.remote**: remote url. If not set, GiveMeADriver.create() will instantiate a local driver.
  - **capabilities.browser**: *chrome* by default, so if you´re testing in Chrome, you can skip this one.
  - **capabilities.autoclose**: *true* by default. GiveMeADriver will close the browser for you once the last test has been executed. That means there is no need to call the quit() method.
  - **capabilities.driverVersion**: if set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
@@ -46,13 +46,13 @@ https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options
 
 ## Other commands
  ```java
-	// gets the current WebDriver instance
-	GiveMeADriver.current();
-	// close the current WebDriver instance. No need to call it if capabilities.autoclose=true
-	GiveMeADriver.close();
+// get the current WebDriver instance
+GiveMeADriver.current();
+// close the current WebDriver instance. No need to call it if capabilities.autoclose=true
+GiveMeADriver.close();
 ```
 
-## Examples of usage
+## Examples
 1. Create a local driver: Firefox with driver binary 0.11.4
 ```java
 public class LocalDriverTest {
