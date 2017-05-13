@@ -32,23 +32,79 @@ Then, simply get your WebDriver instance:
 	@Test
 	public void test() {
 		WebDriver driver = GiveMeADriver.create();
-		// Your test code here
 	}
 ```
 ## Special capabilities
  - **capabilities.remote**: remote url. If not set, GiveMeADriver.create() will try to instantiate a local ChromeDriver.
  - **capabilities.browser**: *chrome* by default, so if you´re testing in Chrome, you can skip this one.
  - **capabilities.autoclose**: *true* by default. GiveMeADriver will close the browser for you once the last test has been executed. That means there is no need to call the quit() method.
- - **capabilities.driverVersion**: if set and *capabilities.remote* is not, the specified binary version will be fetched to create the local WebDriver.
+ - **capabilities.driverVersion**: if set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
 
  Please refer to the below documentation for a complete list of capabilities of the main cloud services.
 https://www.browserstack.com/automate/capabilities
 https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options
 
- ## Other commands
+## Other commands
  ```java
- // gets the current WebDriver instance
- GiveMeADriver.current();
- // close the current WebDriver instance. No need to call it if capabilities.autoclose=true
- GiveMeADriver.close();
+	// gets the current WebDriver instance
+	GiveMeADriver.current();
+	// close the current WebDriver instance. No need to call it if capabilities.autoclose=true
+	GiveMeADriver.close();
 ```
+
+## Examples of usage
+1. Create a local driver: Firefox with driver binary 0.11.4
+```java
+public class LocalDriverTest {
+
+	WebDriver driver;
+
+	@Before
+	public void setup() {
+		// setting capabilities programmatically
+		System.setProperty("capabilities.browser", "firefox");
+		System.setProperty("capabilities.driverVersion", "0.11.4");
+		driver = GiveMeADriver.create();
+	}
+
+	@Test
+	public void myTest() {
+		// use the driver here or
+		// get it by GiveMeADriver.current();
+	}
+	
+	@After
+	public void tearDown() {
+		// no need to driver.quit(); nor GiveMeADriver.close();
+		// if capabilities.autoclose=true
+	}
+}
+```
+Notice that **capabilities.remote** has not been set. A local Firefox browser will be open.
+Currently, the local supported browsers are: *chrome*, *firefox*, *opera*, *safari*, *ie*, *edge*, *phantomjs*.
+
+2. Create a local driver: Chrome with latest binaries.
+```java
+public class LocalDriverTest {
+	
+	@Test
+	public void createLocalDriver() {
+		WebDriver driver = GiveMeADriver.create();
+	}
+}
+```
+3. Create a remote driver: Chrome 57 in BrowserStack.
+```java
+public class RemoteDriverTest {
+	
+	@Test
+	public void createRemoteDriver() {
+		System.setProperty("capabilities.remote", 
+			"https://USERNAME:AUTH_KEY@hub-cloud.browserstack.com/wd/hub");
+		System.setProperty("capabilities.browser", "chrome");
+		System.setProperty("capabilities.browser_version", "57");
+		WebDriver driver = GiveMeADriver.create();
+	}
+}
+```
+ 
