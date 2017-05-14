@@ -1,12 +1,12 @@
-# GiveMeADriver
+<img src="https://cloud.githubusercontent.com/assets/15626602/26036362/7e36f35e-38dc-11e7-8fc9-a198bb5c7dc6.png">
 
 Get a Java WebDriver instance changing no line of your test code.
 
-System properties prefixed with '**capabilities.**' will be automatically processed as DesiredCapabilities. Among other things, it helps you to launch any test on popular cloud services like BrowserStack or Saucelabs, or spin up a local browser whilst you're coding your tests.
+System properties prefixed with '**capabilities.**' will be automatically processed as DesiredCapabilities. Among other things, it helps you to launch any test on popular cloud services like BrowserStack, or Saucelabs, or to spin up a local browser whilst you're coding your tests.
 
 GiveMeADriver is open source, released under the terms of [LGPL License 2.1].
 
-## Usage
+## Setup & Basic Usage
 
 In order to use GiveMeADriver, add the following dependency to your Maven project:
 
@@ -41,8 +41,9 @@ public void test() {
  - **capabilities.driverVersion**: if set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
 
  Please refer to the below documentation for a complete list of capabilities of the main cloud services.
-https://www.browserstack.com/automate/capabilities
-https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options
+- https://www.browserstack.com/automate/capabilities
+- https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options
+- https://testingbot.com/support/other/test-options
 
 ## Other commands
  ```java
