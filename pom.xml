@@ -10,7 +10,7 @@
         <version>0.48.4</version>
     </parent>
 
-    <groupId>io.github.ilozano</groupId>
+    <groupId>io.github.isgarlo</groupId>
     <artifactId>givemeadriver</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
