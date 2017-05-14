@@ -1,4 +1,6 @@
 <img src="https://cloud.githubusercontent.com/assets/15626602/26036362/7e36f35e-38dc-11e7-8fc9-a198bb5c7dc6.png">
+[![DevOps By Rultor.com](http://www.rultor.com/b/jcabi/jcabi-aspects)](http://www.rultor.com/p/jcabi/jcabi-aspects)
+[![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 
 Get a Java WebDriver instance changing no line of your test code.
 
