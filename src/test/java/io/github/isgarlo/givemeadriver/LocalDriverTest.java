@@ -1,3 +1,5 @@
+package io.github.isgarlo.givemeadriver;
+
 import io.github.isgarlo.givemeadriver.GiveMeADriver;
 import org.junit.Test;
 
@@ -13,8 +15,8 @@ public class LocalDriverTest {
 
     @Test
     public void createALocalDriverWithProperties() {
-        System.setProperty("capabilities.browser", "firefox");
-        System.setProperty("capabilities.driverVersion", "0.14.0");
+        System.setProperty("capabilities.browser", "phantomjs");
+        System.setProperty("capabilities.driverVersion", "2.1.1");
         assertNotNull(GiveMeADriver.create());
     }
 }

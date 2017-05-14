@@ -1,3 +1,5 @@
+package io.github.isgarlo.givemeadriver;
+
 import io.github.isgarlo.givemeadriver.GiveMeADriver;
 import org.junit.Test;
 

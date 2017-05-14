@@ -26,7 +26,7 @@ class WebDriverFactory {
     private static final Logger log = LoggerFactory.getLogger(WebDriverFactory.class);
 
     WebDriver createWebDriver() {
-        DesiredCapabilities capabilities = CapabilitiesMapper.extractFromSystemProperties();
+        DesiredCapabilities capabilities = CapabilitiesMapper.mapFromSystemProperties();
         log.info("Mapped " + capabilities.toString());
         return remote != null ? createRemoteDriver(remote, capabilities) :
                 createLocalDriver(getBrowser(), getDriverVersion());

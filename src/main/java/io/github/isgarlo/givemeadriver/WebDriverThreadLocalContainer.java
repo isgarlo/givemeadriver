@@ -23,8 +23,8 @@ public class WebDriverThreadLocalContainer implements WebDriverContainer {
     @Override
     public WebDriver createDriver() {
         WebDriver driver = factory.createWebDriver();
-        ALL_WEB_DRIVERS.add(driver);
         log.info("Created " + driver);
+        ALL_WEB_DRIVERS.add(driver);
         markForAutoClose(autoCloseBrowsers());
         return driver;
     }
@@ -71,6 +71,8 @@ public class WebDriverThreadLocalContainer implements WebDriverContainer {
         } catch (Exception cannotCloseBrowser) {
             log.error("Cannot close browser normally: " + cannotCloseBrowser);
             killBrowser(webdriver);
+        } finally {
+            ALL_WEB_DRIVERS.remove(webdriver);
         }
     }
 
