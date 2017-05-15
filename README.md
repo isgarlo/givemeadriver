@@ -17,7 +17,7 @@ In order to use GiveMeADriver, add the following dependency to your Maven projec
 <dependency>
 	<groupId>io.github.isgarlo</groupId>
 	<artifactId>givemeadriver</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.1</version>
 </dependency>
 ```
 
