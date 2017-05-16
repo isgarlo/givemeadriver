@@ -42,4 +42,14 @@ class DefaultCapabilities {
         return Boolean.parseBoolean(System.getProperty(PREFIX.concat("autoclose"), "true"));
     }
 
+    /**
+     * The browser window size.
+     * Can be configured either programmatically or by system property "-Dcapabilities.browserSize=1024x768".
+     *
+     * Default value: none (browser size will not be set explicitly)
+     */
+    public static String getViewportSize() {
+        return System.getProperty("capabilities.browserSize", System.getProperty("capabilities.viewportSize"));
+    }
+
 }
