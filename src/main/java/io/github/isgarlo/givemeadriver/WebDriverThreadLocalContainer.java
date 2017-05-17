@@ -9,8 +9,6 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static io.github.isgarlo.givemeadriver.DefaultCapabilities.autoCloseBrowsers;
-
 
 public class WebDriverThreadLocalContainer implements WebDriverContainer {
 
@@ -22,10 +20,15 @@ public class WebDriverThreadLocalContainer implements WebDriverContainer {
 
     @Override
     public WebDriver createDriver() {
-        WebDriver driver = factory.createWebDriver();
+        WebDriverCapabilities mappedCaps = new WebDriverCapabilities();
+        mappedCaps.mapFromSystemProperties();
+        log.info(mappedCaps.toString());
+
+        WebDriver driver = factory.createWebDriver(mappedCaps);
         log.info("Created " + driver);
         ALL_WEB_DRIVERS.add(driver);
-        markForAutoClose(autoCloseBrowsers());
+        if(mappedCaps.isAutoClose())
+            markForAutoClose();
         return driver;
     }
 
@@ -49,8 +52,8 @@ public class WebDriverThreadLocalContainer implements WebDriverContainer {
         close(getLastDriver());
     }
 
-    private void markForAutoClose(final boolean value) {
-        if(!shutDownHookTriggered.getAndSet(true) && value) {
+    private void markForAutoClose() {
+        if(!shutDownHookTriggered.getAndSet(true)) {
             Runtime.getRuntime().addShutdownHook(
                     new UnusedWebDriversCleanupThread());
         }

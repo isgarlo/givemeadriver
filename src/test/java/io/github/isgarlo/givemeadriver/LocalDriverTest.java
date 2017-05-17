@@ -1,11 +1,13 @@
 package io.github.isgarlo.givemeadriver;
 
-import io.github.isgarlo.givemeadriver.GiveMeADriver;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
 public class LocalDriverTest {
+
+    @Before
 
     @Test
     public void createADefaultLocalDriver() {

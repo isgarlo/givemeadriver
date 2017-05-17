@@ -2,8 +2,6 @@ package io.github.isgarlo.givemeadriver;
 
 import io.github.bonigarcia.wdm.*;
 import org.apache.commons.lang3.EnumUtils;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,18 +22,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.Preconditions.checkState;
-import static io.github.isgarlo.givemeadriver.CapabilitiesMapper.mapViewPortSize;
-import static io.github.isgarlo.givemeadriver.DefaultCapabilities.*;
 
 class WebDriverFactory {
 
     private static final Logger log = LoggerFactory.getLogger(WebDriverFactory.class);
 
-    WebDriver createWebDriver() {
-        DesiredCapabilities capabilities = CapabilitiesMapper.mapFromSystemProperties();
-        log.info("Mapped " + capabilities.toString());
-        return remote != null ? createRemoteDriver(remote, capabilities) :
-                createLocalDriver(getBrowser(), getDriverVersion());
+    WebDriver createWebDriver(WebDriverCapabilities mappedCaps) {
+        return mappedCaps.isRemote() ? createRemoteDriver(mappedCaps.getRemote(), mappedCaps.toDesiredCapabilities()) :
+                mappedCaps.isDeviceName() ? createChromeEmulationDriver(mappedCaps.getDeviceName()) :
+                        //mappedCaps.areDevicePropertiesSet() ? createChromeEmulationDriver() :
+                                createDesktopLocalDriver(mappedCaps.getBrowser(), mappedCaps.getDriverVersion());
     }
 
     private WebDriver createRemoteDriver(final String remote, final DesiredCapabilities capabilities) {
@@ -46,7 +42,7 @@ class WebDriverFactory {
         }
     }
 
-    private WebDriver createLocalDriver(final String browser, final String driverVersion) {
+    private WebDriver createDesktopLocalDriver(final String browser, final String driverVersion) {
         LocalBrowserTypes browserType = EnumUtils.getEnum(LocalBrowserTypes.class, browser.toUpperCase());
         checkState(browserType != null, "Invalid 'capabilities.browser' parameter: " + browser);
 
@@ -76,22 +72,30 @@ class WebDriverFactory {
         }
     }
 
-    private WebDriver createLocal() {
-        ChromeDriverManager.getInstance().version(getDriverVersion()).setup();
+    private WebDriver createChromeEmulationDriver(String deviceName) {
         Map<String, Object> mobileEmulation = new HashMap<String, Object>();
+        mobileEmulation.put("deviceName", deviceName);
+        return createChromeEmulationDriver(mobileEmulation);
+    }
 
-        if (getDeviceName()) {
-            mobileEmulation.put("deviceName", getDeviceName());
-        } else {
-            Dimension viewportSize = mapViewPortSize();
-            Map<String, Object> deviceMetrics = new HashMap<String, Object>();
-            deviceMetrics.put("width", viewportSize.getWidth());
-            deviceMetrics.put("height", viewportSize.getHeight());
-            deviceMetrics.put("pixelRatio", getDevicePixelRatio());
+    private WebDriver createChromeEmulationDriver () {
 
-            mobileEmulation.put("deviceMetrics", deviceMetrics);
-            mobileEmulation.put("userAgent", getDeviceUserAgent());
-        }
+        /*Dimension viewportSize = mapViewPortSize();
+        Map<String, Object> deviceMetrics = new HashMap<String, Object>();
+        deviceMetrics.put("width", viewportSize.getWidth());
+        deviceMetrics.put("height", viewportSize.getHeight());
+        deviceMetrics.put("pixelRatio", getDevicePixelRatio());
+
+        Map<String, Object> mobileEmulation = new HashMap<String, Object>();
+        mobileEmulation.put("deviceMetrics", deviceMetrics);
+        mobileEmulation.put("userAgent", getDeviceUserAgent());
+
+        return createChromeEmulationDriver(mobileEmulation);*/
+        return null;
+    }
+
+    private WebDriver createChromeEmulationDriver(Map<String, Object> mobileEmulation) {
+        ChromeDriverManager.getInstance().setup();
 
         Map<String, Object> chromeOptions = new HashMap<String, Object>();
         chromeOptions.put("mobileEmulation", mobileEmulation);
@@ -99,10 +103,9 @@ class WebDriverFactory {
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         return new ChromeDriver(capabilities);
-
     }
 
-    private WebDriver adjustBrowserSize(final WebDriver driver) {
+    /*private WebDriver adjustBrowserSize(final WebDriver driver) {
         if (getViewportSize() != null) {
             log.info("Set browser size to " + getViewportSize());
             Dimension browserSize = mapViewPortSize();
@@ -119,15 +122,10 @@ class WebDriverFactory {
             }
         }
         return driver;
-    }
+    }*/
 
     public static void main(String[] args) {
-        WebDriverFactory factory = new WebDriverFactory();
-        WebDriver driver = factory.createLocaldd();
 
-        driver.navigate().to("http://www.whoishostingthis.com/tools/user-agent/");
-        System.out.println(driver.findElement(By.cssSelector(".info-box.user-agent")).getText());
-        driver.quit();
     }
 
 }

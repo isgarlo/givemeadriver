@@ -1,22 +1,31 @@
 package io.github.isgarlo.givemeadriver;
 
-import io.github.isgarlo.givemeadriver.CapabilitiesMapper;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class CapabilitiesMapperTest {
 
+    @Before
+    public void setup() {
+
+    }
+
     @Test
     public void setCapabilityWithPrefix() {
-        CapabilitiesMapper.setToSystemProperties("capabilities.browser", "firefox");
-        assertEquals(System.getProperty("capabilities.browser"), "firefox");
+        System.setProperty("capabilities.remote", "http://REMOTE_URL");
+        WebDriverCapabilities mappedProperties = new WebDriverCapabilities();
+        mappedProperties.mapFromSystemProperties();
+        assertTrue(mappedProperties.isRemote());
+        assertEquals("remote", mappedProperties.getRemote());
     }
 
     @Test
     public void setCapabilityWithoutPrefix() {
-        CapabilitiesMapper.setToSystemProperties("browser", "chrome");
+        WebDriverCapabilities.setToSystemProperties("browser", "chrome");
         assertEquals(System.getProperty("capabilities.browser"), "chrome");
         assertNull(System.getProperty("browser"));
     }
