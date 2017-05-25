@@ -1,7 +1,8 @@
 package io.github.isgarlo.givemeadriver;
 
 import io.github.bonigarcia.wdm.*;
-import org.apache.commons.lang3.EnumUtils;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -21,17 +22,23 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkArgument;
 
 class WebDriverFactory {
 
     private static final Logger log = LoggerFactory.getLogger(WebDriverFactory.class);
 
-    WebDriver createWebDriver(WebDriverCapabilities mappedCaps) {
-        return mappedCaps.isRemote() ? createRemoteDriver(mappedCaps.getRemote(), mappedCaps.toDesiredCapabilities()) :
-                mappedCaps.isDeviceName() ? createChromeEmulationDriver(mappedCaps.getDeviceName()) :
-                        //mappedCaps.areDevicePropertiesSet() ? createChromeEmulationDriver() :
-                                createDesktopLocalDriver(mappedCaps.getBrowser(), mappedCaps.getDriverVersion());
+    WebDriver createWebDriver(WebDriverProperties props) {
+
+        WebDriver webDriver =  !props.getRemote().isEmpty() ? createRemoteDriver(props.getRemote(), props) :
+                !props.getDeviceName().isEmpty() ? createChromeEmulationDriver(props.getDeviceName()) :
+                        !props.getUserAgent().isEmpty() ? createChromeEmulationDriver(props.getUserAgent(),
+                                props.getViewportSize(), props.getPixelRatio()) :
+                                createDesktopLocalDriver(props.getBrowser(), props.getDriverVersion());
+
+        if(!props.getBrowserSize().isEmpty())
+            adjustBrowserSize(webDriver, props.getBrowserSize());
+        return webDriver;
     }
 
     private WebDriver createRemoteDriver(final String remote, final DesiredCapabilities capabilities) {
@@ -43,10 +50,7 @@ class WebDriverFactory {
     }
 
     private WebDriver createDesktopLocalDriver(final String browser, final String driverVersion) {
-        LocalBrowserTypes browserType = EnumUtils.getEnum(LocalBrowserTypes.class, browser.toUpperCase());
-        checkState(browserType != null, "Invalid 'capabilities.browser' parameter: " + browser);
-
-        switch (browserType) {
+        switch (LocalBrowserTypes.valueOf(browser.toUpperCase())) {
             case CHROME:
             default:
                 ChromeDriverManager.getInstance().version(driverVersion).setup();
@@ -72,26 +76,30 @@ class WebDriverFactory {
         }
     }
 
-    private WebDriver createChromeEmulationDriver(String deviceName) {
+    private WebDriver createChromeEmulationDriver(final String deviceName) {
         Map<String, Object> mobileEmulation = new HashMap<String, Object>();
         mobileEmulation.put("deviceName", deviceName);
         return createChromeEmulationDriver(mobileEmulation);
     }
 
-    private WebDriver createChromeEmulationDriver () {
-
-        /*Dimension viewportSize = mapViewPortSize();
+    private WebDriver createChromeEmulationDriver(final String userAgent, final String viewportSize, final double pixelRatio) {
         Map<String, Object> deviceMetrics = new HashMap<String, Object>();
-        deviceMetrics.put("width", viewportSize.getWidth());
-        deviceMetrics.put("height", viewportSize.getHeight());
-        deviceMetrics.put("pixelRatio", getDevicePixelRatio());
+
+        if(!viewportSize.isEmpty()) {
+            Dimension dimension = parseStringSize(viewportSize);
+            deviceMetrics.put("width", dimension.getWidth());
+            deviceMetrics.put("height", dimension.getHeight());
+        }
+
+        if(pixelRatio != 0.0) {
+            deviceMetrics.put("pixelRatio", pixelRatio);
+        }
 
         Map<String, Object> mobileEmulation = new HashMap<String, Object>();
         mobileEmulation.put("deviceMetrics", deviceMetrics);
-        mobileEmulation.put("userAgent", getDeviceUserAgent());
+        mobileEmulation.put("userAgent", userAgent);
 
-        return createChromeEmulationDriver(mobileEmulation);*/
-        return null;
+        return createChromeEmulationDriver(mobileEmulation);
     }
 
     private WebDriver createChromeEmulationDriver(Map<String, Object> mobileEmulation) {
@@ -105,27 +113,22 @@ class WebDriverFactory {
         return new ChromeDriver(capabilities);
     }
 
-    /*private WebDriver adjustBrowserSize(final WebDriver driver) {
-        if (getViewportSize() != null) {
-            log.info("Set browser size to " + getViewportSize());
-            Dimension browserSize = mapViewPortSize();
-            driver.manage().window().setSize(new Dimension(browserSize.getWidth(), browserSize.getHeight()));
-        } else if (true) {//startMaximized
-            try {
-                if (false) {//isChrome()
-                    //maximizeChromeBrowser(driver.manage().window());
-                } else {
-                    driver.manage().window().maximize();
-                }
-            } catch (Exception cannotMaximize) {
-                log.warn("Cannot maximize " + driver.getClass().getSimpleName() + ": " + cannotMaximize);
-            }
+    private void adjustBrowserSize(final WebDriver driver, final String browserSize) {
+        try {
+            driver.manage().window().setPosition(new Point(0, 0));
+            driver.manage().window().setSize(parseStringSize(browserSize));
+            log.info("Set browser size to " + browserSize);
+        } catch (Exception e) {
+            log.warn("Cannot resize " + driver.getClass().getSimpleName() + ": " + e);
         }
-        return driver;
-    }*/
+    }
 
-    public static void main(String[] args) {
-
+    private Dimension parseStringSize(String size) {
+        checkArgument(size.matches("\\d+[x]\\d+"));
+        String[] dimension = size.split("x");
+        int width = Integer.parseInt(dimension[0]);
+        int height = Integer.parseInt(dimension[1]);
+        return new Dimension(width, height);
     }
 
 }
