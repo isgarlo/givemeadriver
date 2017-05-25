@@ -2,7 +2,9 @@
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/jcabi/jcabi-aspects)](http://www.rultor.com)
 [![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
+
 [![Build Status](https://travis-ci.org/isgarlo/givemeadriver.svg?branch=master)](https://travis-ci.org/isgarlo/givemeadriver)
+[![Code coverage](https://codecov.io/github/isgarlo/givemeadriver/coverage.svg?branch=master)](https://codecov.io/gh/isgarlo/givemeadriver)
 
 Get a Java WebDriver instance changing no line of your test code.
 
@@ -16,9 +18,9 @@ In order to use GiveMeADriver, add the following dependency to your Maven projec
 
 ```xml
 <dependency>
-	<groupId>io.github.isgarlo</groupId>
-	<artifactId>givemeadriver</artifactId>
-	<version>0.0.2</version>
+  <groupId>io.github.isgarlo</groupId>
+  <artifactId>givemeadriver</artifactId>
+  <version>0.0.2</version>
 </dependency>
 ```
 
