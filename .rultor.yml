@@ -1,11 +1,25 @@
+architect:
+- isgarlo
 docker:
   image: "maven:3-jdk-8"
 decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
   secring.gpg: "repo/secring.gpg.asc"
+merge:
+  script: |-
+    mvn clean install -Pqulice --errors --settings ../settings.xml
+  commanders:
+  - isgarlo
+deploy:
+  script: |-
+    mvn clean deploy -Pqulice --errors --settings ../settings.xml
+  commanders:
+      - isgarlo
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
+    mvn clean deploy -Pqulice -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
+  commanders:
+  - isgarlo

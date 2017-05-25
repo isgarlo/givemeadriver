@@ -12,8 +12,8 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertSame;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 public class WebDriverContainerTest {
 
@@ -63,9 +63,12 @@ public class WebDriverContainerTest {
     }
 
     @Test
-    public void throwsExceptionIfNoDriverToClose() {
-        exception.expect(IllegalStateException.class);
-        exception.expectMessage("No driver has been set. Call GiveMeADriver.create();");
+    public void closeDriverNormally() {
+        container.WEB_DRIVER = mock(WebDriver.class);
         container.closeDriver();
+
+        verify(container).closeDriver();
+        assertThat(container.WEB_DRIVER).isNull();
     }
+
 }
