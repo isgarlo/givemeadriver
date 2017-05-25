@@ -8,4 +8,4 @@ release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -DskipTests -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
+    mvn clean deploy -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
