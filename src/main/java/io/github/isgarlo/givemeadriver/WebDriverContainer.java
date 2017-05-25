@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static com.google.common.base.Preconditions.checkState;
+
 
 class WebDriverContainer {
 
@@ -28,25 +30,26 @@ class WebDriverContainer {
     }
 
     WebDriver createDriver(WebDriverProperties properties) {
-        if (WEB_DRIVER == null) {
-            WebDriver driver = factory.createWebDriver(properties);
-            log.info("Created " + driver);
-            log.info(properties.toString());
-            WEB_DRIVER = driver;
-            if (properties.isAutoClose())
-                markForAutoClose();
-            return driver;
-        } else {
-            log.info("There is a driver already open: " + describe(WEB_DRIVER));
-            return WEB_DRIVER;
-        }
+        checkState(WEB_DRIVER == null,
+                "There is a driver already open. Only one instance allowed.");
+        WebDriver driver = factory.createWebDriver(properties);
+        log.info("Created " + driver);
+        log.info(properties.toString());
+        WEB_DRIVER = driver;
+        if (properties.isAutoClose())
+            markForAutoClose();
+        return driver;
     }
 
     WebDriver getDriver() {
+        checkState(WEB_DRIVER != null,
+                "No driver has been set. Call GiveMeADriver.create();");
         return WEB_DRIVER;
     }
 
     void closeDriver() {
+        checkState(WEB_DRIVER != null,
+                "No driver has been set. Call GiveMeADriver.create();");
         close(WEB_DRIVER);
     }
 

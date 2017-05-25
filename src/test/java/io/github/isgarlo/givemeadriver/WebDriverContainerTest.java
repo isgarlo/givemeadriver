@@ -2,7 +2,9 @@ package io.github.isgarlo.givemeadriver;
 
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.openqa.selenium.WebDriver;
 
@@ -14,13 +16,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class WebDriverContainerTest {
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
     private WebDriverContainer container = spy(WebDriverContainer.getInstance());
 
     @Before
     public void setUp() {
         container.factory = mock(WebDriverFactory.class);
         doReturn(mock(WebDriver.class)).when(container.factory).createWebDriver(any(WebDriverProperties.class));
-
     }
 
     @Test
@@ -39,5 +43,29 @@ public class WebDriverContainerTest {
         verify(container.factory).createWebDriver(captor.capture());
         assertThat(captor.getValue().getBrowser()).isEqualTo("chrome");
         assertThat(captor.getValue().isAutoClose()).isTrue();
+    }
+
+    @Test
+    public void noAdditionalDriversAllowed() {
+        WebDriverProperties props = new WebDriverProperties(new HashMap<>());
+        container.createDriver(props);
+
+        exception.expect(IllegalStateException.class);
+        exception.expectMessage("There is a driver already open. Only one instance allowed.");
+        container.createDriver(props);
+    }
+
+    @Test
+    public void throwsExceptionIfNoCurrentDriver() {
+        exception.expect(IllegalStateException.class);
+        exception.expectMessage("No driver has been set. Call GiveMeADriver.create();");
+        container.getDriver();
+    }
+
+    @Test
+    public void throwsExceptionIfNoDriverToClose() {
+        exception.expect(IllegalStateException.class);
+        exception.expectMessage("No driver has been set. Call GiveMeADriver.create();");
+        container.closeDriver();
     }
 }
