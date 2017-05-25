@@ -4,12 +4,13 @@
 [![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
 [![Build Status](https://travis-ci.org/isgarlo/givemeadriver.svg?branch=master)](https://travis-ci.org/isgarlo/givemeadriver)
 [![Code coverage](https://codecov.io/github/isgarlo/givemeadriver/coverage.svg?branch=master)](https://codecov.io/gh/isgarlo/givemeadriver)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.isgarlo/givemeadriver/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.isgarlo/givemeadriver)
 
 Get a Java WebDriver instance changing no line of your test code.
 
 System properties prefixed with '**capabilities.**' will be automatically processed as DesiredCapabilities. Among other things, it helps you to launch any test on popular cloud services like BrowserStack, or Saucelabs, or to spin up a local browser whilst you're coding your tests.
 
-GiveMeADriver is open source, released under the terms of [LGPL License 2.1].
+GiveMeADriver is open source, released under the terms of [![License (LGPL version 2.1)](https://img.shields.io/badge/license-GNU%20LGPL%20version%202.1-brightgreen.svg?style=flat-square)](http://opensource.org/licenses/LGPL-2.1)
 
 ## Setup & Basic Usage
 
