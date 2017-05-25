@@ -1,13 +1,17 @@
 package io.github.isgarlo.givemeadriver;
 
 public enum LocalBrowserTypes {
-    FIREFOX,
     CHROME,
+    FIREFOX,
     IE,
     SAFARI,
     OPERA,
     EDGE,
-    PHANTOMJS,
-    HTMLUNIT
+    PHANTOMJS;
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 
 }
