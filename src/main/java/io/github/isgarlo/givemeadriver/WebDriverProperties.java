@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+@SuppressWarnings("serial")
 class WebDriverProperties extends DesiredCapabilities {
 
     private static final String CAPABILITY_BROWSER = "browser";
