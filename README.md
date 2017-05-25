@@ -2,7 +2,6 @@
 
 [![DevOps By Rultor.com](http://www.rultor.com/b/jcabi/jcabi-aspects)](http://www.rultor.com)
 [![We recommend IntelliJ IDEA](http://img.teamed.io/intellij-idea-recommend.svg)](https://www.jetbrains.com/idea/)
-
 [![Build Status](https://travis-ci.org/isgarlo/givemeadriver.svg?branch=master)](https://travis-ci.org/isgarlo/givemeadriver)
 [![Code coverage](https://codecov.io/github/isgarlo/givemeadriver/coverage.svg?branch=master)](https://codecov.io/gh/isgarlo/givemeadriver)
 
