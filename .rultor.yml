@@ -8,18 +8,18 @@ decrypt:
   secring.gpg: "repo/secring.gpg.asc"
 merge:
   script: |-
-    mvn clean install -Pqulice --errors --settings ../settings.xml
+    mvn clean install --errors --settings ../settings.xml
   commanders:
   - isgarlo
 deploy:
   script: |-
-    mvn clean deploy -Pqulice --errors --settings ../settings.xml
+    mvn clean deploy --errors --settings ../settings.xml
   commanders:
-      - isgarlo
+  - isgarlo
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Pqulice -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
+    mvn clean deploy -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
   commanders:
   - isgarlo

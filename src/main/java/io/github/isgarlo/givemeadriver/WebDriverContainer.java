@@ -1,42 +1,34 @@
 package io.github.isgarlo.givemeadriver;
 
+import io.github.isgarlo.givemeadriver.factories.DriverType;
+import io.github.isgarlo.givemeadriver.factories.FactoryHandler;
+import io.github.isgarlo.givemeadriver.factories.IFactoryHandler;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import static com.google.common.base.Preconditions.checkState;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 
 class WebDriverContainer {
 
     private static final Logger log = LoggerFactory.getLogger(WebDriverContainer.class);
+    IFactoryHandler factory = new FactoryHandler();
+    WebDriverCleanupThread cleanupThread = new WebDriverCleanupThread();
+    WebDriver WEB_DRIVER;
 
-    protected WebDriverFactory factory = new WebDriverFactory();
-    WebDriver WEB_DRIVER = null;
-    private AtomicBoolean shutDownHookTriggered = new AtomicBoolean(false);
-
-    private WebDriverContainer() { }
-
-    static WebDriverContainer getInstance() {
-        return SingletonHelper.INSTANCE;
-    }
-
-    private static class SingletonHelper {
-        private static final WebDriverContainer INSTANCE = new WebDriverContainer();
-    }
-
-    WebDriver createDriver(WebDriverProperties properties) {
+    WebDriver createDriver(DriverType type, DesiredCapabilities capabilities) {
         checkState(WEB_DRIVER == null,
                 "There is a driver already open. Only one instance allowed.");
-        WebDriver driver = factory.createWebDriver(properties);
-        log.info("Created " + driver);
-        log.info(properties.toString());
-        WEB_DRIVER = driver;
-        if (properties.isAutoClose())
-            markForAutoClose();
-        return driver;
+
+        WEB_DRIVER = factory.create(type).createDriver(capabilities);
+        log.info("Created " + WEB_DRIVER);
+        log.info(capabilities.toString());
+        return WEB_DRIVER;
     }
 
     WebDriver getDriver() {
@@ -55,10 +47,25 @@ class WebDriverContainer {
         }
     }
 
-    void markForAutoClose() {
-        if(!shutDownHookTriggered.getAndSet(true)) {
-            Runtime.getRuntime().addShutdownHook(
-                    new UnusedWebDriversCleanupThread());
+    void markDriverForAutoClose(boolean value) {
+        if(value) {
+            Runtime.getRuntime().addShutdownHook(cleanupThread);
+            log.info("Shutdown hook added. The driver will be auto closed.");
+        }
+    }
+
+    void setDriverWindowSize(final String browserSize) {
+        if(isNotEmpty(browserSize)) {
+            try {
+                WEB_DRIVER.manage().window().setPosition(new Point(0, 0));
+                String[] dimension = browserSize.split("x");
+                int width = Integer.parseInt(dimension[0]);
+                int height = Integer.parseInt(dimension[1]);
+                WEB_DRIVER.manage().window().setSize(new Dimension(width, height));
+                log.info("Set browser size to " + browserSize);
+            } catch (Exception e) {
+                log.warn("Cannot resize " + describe(WEB_DRIVER) + ": " + e);
+            }
         }
     }
 
@@ -66,7 +73,7 @@ class WebDriverContainer {
         return webDriver.getClass().getSimpleName();
     }
 
-    protected class UnusedWebDriversCleanupThread extends Thread {
+    class WebDriverCleanupThread extends Thread {
 
         @Override
         public void run() {

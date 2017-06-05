@@ -1,12 +1,18 @@
 package io.github.isgarlo.givemeadriver;
 
 import com.google.common.collect.Maps;
+import io.github.isgarlo.givemeadriver.converter.CapabilitiesConverter;
+import io.github.isgarlo.givemeadriver.converter.CapabilitiesConverterFactory;
 import org.apache.logging.log4j.util.PropertiesUtil;
 import org.openqa.selenium.WebDriver;
+
 import java.util.Map;
 import java.util.Properties;
 
 public final class GiveMeADriver {
+
+    private static final WebDriverContainer container = new WebDriverContainer();
+    private static final CapabilitiesConverterFactory converterFactory = new CapabilitiesConverterFactory();
 
     private GiveMeADriver() {
         // utility class
@@ -18,8 +24,19 @@ public final class GiveMeADriver {
      * @return the WebDriver instance
      */
     public static WebDriver create() {
-        WebDriverProperties properties = new WebDriverProperties(mapFromSystemProperties());
-        return WebDriverContainer.getInstance().createDriver(properties);
+        // map properties from system & validate
+        WebDriverProperties properties = new WebDriverProperties(mapFromSystemProperties()).validate();
+
+        // convert properties to DesiredCapabilities & create WebDriver instance
+        CapabilitiesConverter converter = converterFactory.create(properties.getDriverType());
+        WebDriver driver = container.createDriver(properties.getDriverType(), converter.convert(properties));
+
+        // add hook to auclose the driver
+        container.markDriverForAutoClose(properties.isAutoClose());
+
+        // resize the driver window
+        container.setDriverWindowSize(properties.getBrowserSize());
+        return driver;
     }
 
     /**
@@ -28,14 +45,14 @@ public final class GiveMeADriver {
      * @return the WebDriver instance
      */
     public static WebDriver current() {
-        return WebDriverContainer.getInstance().getDriver();
+        return container.getDriver();
     }
 
     /**
      * Closes the underlying instance of Selenium WebDriver.
      */
     public static void close() {
-        WebDriverContainer.getInstance().closeDriver();
+        container.closeDriver();
     }
 
     private static Map<String, String> mapFromSystemProperties() {

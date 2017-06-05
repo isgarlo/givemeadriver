@@ -1,46 +1,30 @@
 package io.github.isgarlo.givemeadriver;
 
 
+import net.jcip.annotations.NotThreadSafe;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.rules.ExpectedException;
 import org.openqa.selenium.WebDriver;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.powermock.api.mockito.PowerMockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(GiveMeADriver.class)
+@NotThreadSafe
 public class GiveMeADriverTest {
 
-    @Test
-    public void createReturnsADriver() {
-        mockStatic(GiveMeADriver.class);
-        when(GiveMeADriver.create()).thenReturn(mock(WebDriver.class));
-        GiveMeADriver.create();
-
-        verifyStatic();
-        GiveMeADriver.create();
-
-    }
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void currentReturnsTheDriver() {
-        mockStatic(GiveMeADriver.class);
-        when(GiveMeADriver.current()).thenReturn(mock(WebDriver.class));
+    public void createHtmlUnitDriver() {
+        System.setProperty("capabilities.browserName", "htmlunit");
+        System.setProperty("capabilities.autoclose", "false");
+
+        WebDriver driver = GiveMeADriver.create();
+        assertThat(GiveMeADriver.current()).isEqualTo(driver);
+        GiveMeADriver.close();
+        exception.expect(IllegalStateException.class);
         GiveMeADriver.current();
 
-        verifyStatic();
-        GiveMeADriver.current();
     }
-
-    @Test
-    public void closeReturnsTheDriver() {
-        mockStatic(GiveMeADriver.class);
-        GiveMeADriver.close();
-
-        verifyStatic();
-        GiveMeADriver.close();
-    }
-
 }
