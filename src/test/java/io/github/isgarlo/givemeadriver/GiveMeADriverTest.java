@@ -12,7 +12,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class GiveMeADriverIT {
+public class GiveMeADriverTest {
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();

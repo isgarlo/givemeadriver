@@ -1,14 +1,5 @@
 language: java
-
 jdk:
   - oraclejdk8
-
-script:
-  - mvn clean test
-  - bash <(curl -s https://codecov.io/bash) -c -F unit
-  - mvn clean test-compile failsafe:integration-test
-  - bash <(curl -s https://codecov.io/bash) -c -F integration
-
-cache:
-  directories:
-    - '$HOME/.m2/repository'
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
