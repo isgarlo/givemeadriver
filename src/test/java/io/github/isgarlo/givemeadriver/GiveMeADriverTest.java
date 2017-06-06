@@ -8,9 +8,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 public class GiveMeADriverTest {
 
