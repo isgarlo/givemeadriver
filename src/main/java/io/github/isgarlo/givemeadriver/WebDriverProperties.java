@@ -61,7 +61,7 @@ public class WebDriverProperties {
                                 .orElse("chrome"))));
     }
 
-    String getBrowserSize() {
+    public String getBrowserSize() {
         return String.valueOf(Optional.ofNullable(getProperty(CAPABILITY_BROWSER_SIZE))
                 .orElse(StringUtils.EMPTY));
     }

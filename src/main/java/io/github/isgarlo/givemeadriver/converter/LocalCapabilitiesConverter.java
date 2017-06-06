@@ -6,9 +6,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
 
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_ACCEPT_SSL_CERTS;
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_BROWSER_NAME;
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_DRIVER_VERSION;
+import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public abstract class LocalCapabilitiesConverter implements CapabilitiesConverter {
@@ -19,7 +17,9 @@ public abstract class LocalCapabilitiesConverter implements CapabilitiesConverte
     public DesiredCapabilities convert(WebDriverProperties properties) {
         capabilities.setCapability(CAPABILITY_BROWSER_NAME, properties.getBrowser());
         capabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, properties.isAcceptSslCerts());
+        capabilities.setCapability(CAPABILITY_AUTOCLOSE, properties.isAutoClose());
         addToCapabilitiesIfNoEmptyValue(capabilities, CAPABILITY_DRIVER_VERSION, properties.getDriverVersion());
+        addToCapabilitiesIfNoEmptyValue(capabilities, CAPABILITY_BROWSER_SIZE, properties.getBrowserSize());
         addDriverSpecificCapabilities(properties);
         return capabilities;
     }

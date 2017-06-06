@@ -62,7 +62,7 @@ class WebDriverContainer {
                 int width = Integer.parseInt(dimension[0]);
                 int height = Integer.parseInt(dimension[1]);
                 WEB_DRIVER.manage().window().setSize(new Dimension(width, height));
-                log.info("Set browser size to " + browserSize);
+                log.info("Browser size set to " + browserSize);
             } catch (Exception e) {
                 log.warn("Cannot resize " + describe(WEB_DRIVER) + ": " + e);
             }

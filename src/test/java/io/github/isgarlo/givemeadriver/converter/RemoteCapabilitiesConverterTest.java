@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_ACCEPT_SSL_CERTS;
+import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_AUTOCLOSE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -25,6 +26,7 @@ public class RemoteCapabilitiesConverterTest {
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
@@ -54,6 +56,7 @@ public class RemoteCapabilitiesConverterTest {
         expectedCapabilities.setCapability("browser_version", "48.0");
         expectedCapabilities.setCapability("resolution", "1680x1050");
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, false);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }

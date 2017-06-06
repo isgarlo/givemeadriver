@@ -63,6 +63,7 @@ public class ChromeCapabilitiesConverterTest {
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities.getCapability(ChromeOptions.CAPABILITY)).isNull();
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);

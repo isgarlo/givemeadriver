@@ -5,9 +5,7 @@ import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_ACCEPT_SSL_CERTS;
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_BROWSER_NAME;
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_DRIVER_VERSION;
+import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -28,6 +26,7 @@ public class GenericCapabilitiesConverterTest {
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
@@ -46,6 +45,7 @@ public class GenericCapabilitiesConverterTest {
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, false);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
@@ -65,6 +65,7 @@ public class GenericCapabilitiesConverterTest {
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(CAPABILITY_DRIVER_VERSION, "2.25");
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
