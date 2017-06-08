@@ -87,9 +87,10 @@ public class WebDriverProperties {
     }
 
     public String getDeviceName() {
-        return String.valueOf(Optional.ofNullable(getProperty(CAPABILITY_DEVICE_NAME))
-                .orElse(Optional.ofNullable(System.getProperty(CAPABILITY_DEVICE))
-                        .orElse(StringUtils.EMPTY)));
+        return String.valueOf(Optional.ofNullable(getProperty(CAPABILITY_DEVICE))
+                .orElse(Optional.ofNullable(getProperty(CAPABILITY_DEVICE_NAME))
+                    .orElse(Optional.ofNullable(System.getProperty(CAPABILITY_DEVICE))
+                        .orElse(StringUtils.EMPTY))));
     }
 
     public String getDriverVersion() {

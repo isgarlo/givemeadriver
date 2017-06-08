@@ -16,6 +16,7 @@ public class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
     protected void addDriverSpecificCapabilities(WebDriverProperties properties) {
         Map<String, Object> deviceMetrics = new HashMap<>();
         Map<String, Object> mobileEmulation = new HashMap<>();
+        ChromeOptions chromeOptions = new ChromeOptions();
 
         addToMapIfNoEmptyValue(mobileEmulation, CAPABILITY_DEVICE_NAME, properties.getDeviceName());
         addToMapIfNoEmptyValue(mobileEmulation, CAPABILITY_USER_AGENT, properties.getUserAgent());
@@ -37,9 +38,19 @@ public class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
             mobileEmulation.put("deviceMetrics", deviceMetrics);
 
         if(!mobileEmulation.isEmpty()) {
-            ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
-            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         }
+
+        // disable password manager
+        // https://sites.google.com/a/chromium.org/chromedriver/capabilities
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("profile.password_manager_enabled", "false");
+        prefs.put("credentials_enable_service", "false");
+        chromeOptions.setExperimentalOption("prefs", prefs);
+
+        // setting additional arguments
+        chromeOptions.addArguments("disable-device-discovery-notifications");
+
+        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
     }
 }

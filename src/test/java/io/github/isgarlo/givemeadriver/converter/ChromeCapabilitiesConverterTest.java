@@ -37,6 +37,7 @@ public class ChromeCapabilitiesConverterTest {
         ChromeOptions expectedChromeOptions = new ChromeOptions();
         Map<String, Object> expectedMobileEmulation = new HashMap<>();
         Map<String, Object> expectedDeviceMetrics = new HashMap<>();
+        Map<String, Object> prefs = new HashMap<>();
         expectedDeviceMetrics.put("width", 378);
         expectedDeviceMetrics.put("height", 664);
         expectedDeviceMetrics.put(CAPABILITY_PIXEL_RATIO, 3.0);
@@ -44,6 +45,12 @@ public class ChromeCapabilitiesConverterTest {
         expectedMobileEmulation.put(CAPABILITY_DEVICE_NAME, IPHONE_DEVICE);
         expectedMobileEmulation.put(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
         expectedChromeOptions.setExperimentalOption("mobileEmulation", expectedMobileEmulation);
+
+        prefs.put("profile.password_manager_enabled", "false");
+        prefs.put("credentials_enable_service", "false");
+        expectedChromeOptions.setExperimentalOption("prefs", prefs);
+
+        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
 
         ChromeOptions actualChromeOptions;
         actualChromeOptions = (ChromeOptions) convertedCapabilities.getCapability(ChromeOptions.CAPABILITY);
@@ -65,7 +72,16 @@ public class ChromeCapabilitiesConverterTest {
         expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
-        assertThat(convertedCapabilities.getCapability(ChromeOptions.CAPABILITY)).isNull();
+        ChromeOptions expectedChromeOptions = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<>();
+
+        prefs.put("profile.password_manager_enabled", "false");
+        prefs.put("credentials_enable_service", "false");
+        expectedChromeOptions.setExperimentalOption("prefs", prefs);
+        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
+        expectedCapabilities.setCapability(ChromeOptions.CAPABILITY, expectedChromeOptions);
+
+        assertThat(convertedCapabilities.getCapability(ChromeOptions.CAPABILITY)).isEqualTo(expectedChromeOptions);
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
 
@@ -83,9 +99,14 @@ public class ChromeCapabilitiesConverterTest {
         // expected chrome options
         ChromeOptions expectedChromeOptions = new ChromeOptions();
         Map<String, Object> expectedMobileEmulation = new HashMap<>();
+        Map<String, Object> prefs = new HashMap<>();
         expectedMobileEmulation.put(CAPABILITY_DEVICE_NAME, IPHONE_DEVICE);
         expectedMobileEmulation.put(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
         expectedChromeOptions.setExperimentalOption("mobileEmulation", expectedMobileEmulation);
+        prefs.put("profile.password_manager_enabled", "false");
+        prefs.put("credentials_enable_service", "false");
+        expectedChromeOptions.setExperimentalOption("prefs", prefs);
+        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
 
         ChromeOptions actualChromeOptions;
         actualChromeOptions = (ChromeOptions) convertedCapabilities.getCapability(ChromeOptions.CAPABILITY);
