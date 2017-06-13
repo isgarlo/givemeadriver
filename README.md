@@ -20,7 +20,7 @@ In order to use GiveMeADriver, add the following dependency to your Maven projec
 <dependency>
   <groupId>io.github.isgarlo</groupId>
   <artifactId>givemeadriver</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 </dependency>
 ```
 
@@ -150,6 +150,18 @@ public class LocalDriverTest {
 	    "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1");
     System.setProperty("capabilities.viewportSize", "1024x1366");
     System.setProperty("capabilities.pixelRatio", "2.0");
+    GiveMeADriver.create();
+  }
+}
+```
+6. Create a headless local driver: Chrome with latest binaries.
+```java
+public class LocalDriverTest {
+
+  @Test
+  public void createLocalDriver() {
+    System.setProperty("capabilities.browser", "chrome");
+    System.setProperty("capabilities.headless", "true");
     GiveMeADriver.create();
   }
 }
