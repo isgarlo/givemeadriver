@@ -30,12 +30,13 @@ public class WebDriverPropertiesTest {
         assertThat(props.getBrowserSize()).isEmpty();
         assertThat(props.getViewportSize()).isEmpty();
         assertThat(props.getDriverType()).isEqualTo(DriverType.CHROME);
+        assertThat(props.isHeadless()).isFalse();
     }
 
     @Test
     public void throwsExceptionIfBrowserValueIsInvalid() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_BROWSER, "unexisting-browser");
+        properties.setProperty("browser", "unexisting-browser");
 
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage("Invalid [capabilities.browser, capabilities.browserName, browser] " +
@@ -46,7 +47,7 @@ public class WebDriverPropertiesTest {
     @Test
     public void throwsExceptionIfBrowserSizeValueIsInvalid() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_BROWSER_SIZE, "123");
+        properties.setProperty("browserSize", "123");
 
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage(
@@ -58,7 +59,7 @@ public class WebDriverPropertiesTest {
     @Test
     public void throwsExceptionIfViewportSizeValueIsInvalid() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_VIEWPORT_SIZE, "123");
+        properties.setProperty("viewportSize", "123");
 
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage(
@@ -70,8 +71,8 @@ public class WebDriverPropertiesTest {
     @Test
     public void throwsExceptionIfDeviceNameAndUserAgentAreBothSet() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_DEVICE_NAME, "Apple iPhone 6");
-        properties.setProperty(CAPABILITY_USER_AGENT, "Mozilla/5.0 (iPhone; CPU...");
+        properties.setProperty("device", "Apple iPhone 6");
+        properties.setProperty("userAgent", "Mozilla/5.0 (iPhone; CPU...");
 
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage(
@@ -84,7 +85,7 @@ public class WebDriverPropertiesTest {
     @Test
     public void throwsExceptionIfRemoteValueIsInvalid() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_REMOTE, "malformed.url");
+        properties.setProperty("remote", "malformed.url");
 
         this.exception.expect(IllegalArgumentException.class);
         this.exception.expectMessage("Invalid 'capabilities.remote' parameter: ");
@@ -101,8 +102,8 @@ public class WebDriverPropertiesTest {
     @Test
     public void getBrowserWhenSetByManyCapabilities() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_BROWSER, "browser_from_".concat(CAPABILITY_BROWSER));
-        properties.setProperty(CAPABILITY_BROWSER_NAME, "browser_from_".concat(CAPABILITY_BROWSER_NAME));
+        properties.setProperty("browser", "browser_from_browser");
+        properties.setProperty("browserName", "browser_from_browserName");
 
         assertThat(properties.getBrowser()).isEqualTo(properties.getProperty(CAPABILITY_BROWSER));
     }
@@ -110,21 +111,21 @@ public class WebDriverPropertiesTest {
     @Test
     public void setAutocloseWithInvalidDataReturnsFalse() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_AUTOCLOSE, "this_is_not_a_boolean");
+        properties.setProperty("autoclose", "this_is_not_a_boolean");
         assertThat(properties.isAutoClose()).isFalse();
     }
 
     @Test
     public void setPixelRatioWithInvalidDataReturnsDefaultDouble() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_PIXEL_RATIO, "this_is_not_a_double");
+        properties.setProperty("pixelRatio", "this_is_not_a_double");
         assertThat(properties.getPixelRatio()).isEqualTo(0.0);
     }
 
     @Test
     public void driverTypeIsRemoteWhenRemoteIsSet() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_REMOTE, "http://my_remote_grid");
+        properties.setProperty("remote", "http://my_remote_grid");
         assertThat(properties.getDriverType()).isEqualTo(DriverType.REMOTE);
     }
 
@@ -137,9 +138,9 @@ public class WebDriverPropertiesTest {
     @Test
     public void asMapReturns() {
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_USER_AGENT, "Mozilla/5.0 (iPhone; CPU...");
-        properties.setProperty(CAPABILITY_PIXEL_RATIO, "3.0");
-        properties.setProperty(CAPABILITY_AUTOCLOSE, "true");
+        properties.setProperty("userAgent", "Mozilla/5.0 (iPhone; CPU...");
+        properties.setProperty("pixelRatio", "3.0");
+        properties.setProperty("autoclose", "true");
 
         HashMap<String, String> expectedMap = new HashMap<>();
         expectedMap.put(CAPABILITY_USER_AGENT, "Mozilla/5.0 (iPhone; CPU...");
@@ -148,5 +149,13 @@ public class WebDriverPropertiesTest {
 
         assertThat(properties.asMap()).isEqualTo(expectedMap);
 
+    }
+
+    @Test
+    public void setHeadlessWithInvalidDataReturnsFalse() {
+        WebDriverProperties properties = new WebDriverProperties();
+        properties.setProperty("headless", "true");
+
+        assertThat(properties.isHeadless()).isTrue();
     }
 }

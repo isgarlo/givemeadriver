@@ -32,7 +32,7 @@ public class WebDriverProperties {
     public static final String CAPABILITY_VIEWPORT_SIZE = "viewportSize";
     public static final String CAPABILITY_USER_AGENT = "userAgent";
     public static final String CAPABILITY_PIXEL_RATIO = "pixelRatio";
-    public static final String CAPABILITY_ACCEPT_SSL_CERTS = "acceptSslCerts";
+    public static final String CAPABILITY_HEADLESS = "headless";
 
     public WebDriverProperties() {
         // no-arg constructor
@@ -76,9 +76,9 @@ public class WebDriverProperties {
                 .orElse("true"));
     }
 
-    public boolean isAcceptSslCerts() {
-        return Boolean.valueOf(Optional.ofNullable(getProperty(CAPABILITY_ACCEPT_SSL_CERTS))
-                .orElse("true"));
+    public boolean isHeadless() {
+        return Boolean.valueOf(Optional.ofNullable(getProperty(CAPABILITY_HEADLESS))
+                .orElse("false"));
     }
 
     public String getRemote() {

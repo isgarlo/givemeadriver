@@ -6,12 +6,9 @@ import io.github.isgarlo.givemeadriver.factories.IFactoryHandler;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 import static com.google.common.base.Preconditions.checkState;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -31,7 +28,6 @@ class WebDriverContainer {
         WEB_DRIVER = factory.create(type).createDriver(capabilities);
         log.info("Created " + WEB_DRIVER);
         log.info(capabilities.toString());
-        logChromeOptions((ChromeOptions) capabilities.getCapability(ChromeOptions.CAPABILITY));
 
         return WEB_DRIVER;
     }
@@ -77,16 +73,7 @@ class WebDriverContainer {
         return webDriver.getClass().getSimpleName();
     }
 
-    private void logChromeOptions(ChromeOptions chromeOptions) {
-        try {
-            if (chromeOptions != null)
-                log.info("ChromeOptions " + chromeOptions.toJson().toString());
-        } catch (IOException e) {
-            log.warn("Unable to parse ChromeOptions to json", e);
-        }
-    }
-
-    class WebDriverCleanupThread extends Thread {
+    public class WebDriverCleanupThread extends Thread {
 
         @Override
         public void run() {

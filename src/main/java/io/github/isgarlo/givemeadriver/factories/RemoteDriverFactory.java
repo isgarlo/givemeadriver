@@ -8,7 +8,7 @@ import java.net.URL;
 
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_REMOTE;
 
-public class RemoteDriverFactory implements DriverFactory {
+class RemoteDriverFactory implements DriverFactory {
 
     @Override
     public WebDriver createDriver(DesiredCapabilities capabilities) {

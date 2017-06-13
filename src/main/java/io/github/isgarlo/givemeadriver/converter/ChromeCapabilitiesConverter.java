@@ -2,7 +2,10 @@ package io.github.isgarlo.givemeadriver.converter;
 
 import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +13,9 @@ import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 
-public class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
+class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
+
+    private static final Logger log = LoggerFactory.getLogger(ChromeCapabilitiesConverter.class);
 
     @Override
     protected void addDriverSpecificCapabilities(WebDriverProperties properties) {
@@ -18,6 +23,7 @@ public class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
         Map<String, Object> mobileEmulation = new HashMap<>();
         ChromeOptions chromeOptions = new ChromeOptions();
 
+        //https://cs.chromium.org/chromium/src/chrome/test/chromedriver/chrome/mobile_device_list.cc
         addToMapIfNoEmptyValue(mobileEmulation, CAPABILITY_DEVICE_NAME, properties.getDeviceName());
         addToMapIfNoEmptyValue(mobileEmulation, CAPABILITY_USER_AGENT, properties.getUserAgent());
 
@@ -41,16 +47,19 @@ public class ChromeCapabilitiesConverter extends LocalCapabilitiesConverter {
             chromeOptions.setExperimentalOption("mobileEmulation", mobileEmulation);
         }
 
-        // disable password manager
-        // https://sites.google.com/a/chromium.org/chromedriver/capabilities
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("profile.password_manager_enabled", "false");
-        prefs.put("credentials_enable_service", "false");
-        chromeOptions.setExperimentalOption("prefs", prefs);
-
         // setting additional arguments
-        chromeOptions.addArguments("disable-device-discovery-notifications");
+        // https://sites.google.com/a/chromium.org/chromedriver/capabilities
+        chromeOptions.addArguments("--disable-device-discovery-notifications");
+        chromeOptions.addArguments("--disable-infobars");
+        if(properties.isHeadless())
+            chromeOptions.addArguments("headless", "disable-gpu");
 
         capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+
+        try {
+            log.info("ChromeOptions " + chromeOptions.toJson().toString());
+        } catch (IOException e) {
+            log.warn("Unable to parse ChromeOptions to json", e);
+        }
     }
 }

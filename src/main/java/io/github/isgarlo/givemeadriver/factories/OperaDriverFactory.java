@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_DRIVER_VERSION;
 
 
-public class OperaDriverFactory implements DriverFactory {
+class OperaDriverFactory implements DriverFactory {
 
     @Override
     public WebDriver createDriver(DesiredCapabilities capabilities) {

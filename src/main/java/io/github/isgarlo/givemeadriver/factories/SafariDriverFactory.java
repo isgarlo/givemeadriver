@@ -5,7 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
 
-public class SafariDriverFactory implements DriverFactory {
+class SafariDriverFactory implements DriverFactory {
 
     @Override
     public WebDriver createDriver(DesiredCapabilities capabilities) {

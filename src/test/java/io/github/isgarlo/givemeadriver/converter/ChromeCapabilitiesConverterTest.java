@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 
 
 public class ChromeCapabilitiesConverterTest {
@@ -24,10 +25,11 @@ public class ChromeCapabilitiesConverterTest {
     public void settingAllChromeProperties() throws IOException {
         // given
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_DEVICE_NAME, IPHONE_DEVICE);
-        properties.setProperty(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
-        properties.setProperty(CAPABILITY_VIEWPORT_SIZE, "378x664");
-        properties.setProperty(CAPABILITY_PIXEL_RATIO, "3.0");
+        properties.setProperty("device", IPHONE_DEVICE);
+        properties.setProperty("userAgent", ANY_USER_AGENT);
+        properties.setProperty("viewportSize", "378x664");
+        properties.setProperty("pixelRatio", "3.0");
+        properties.setProperty("headless", "true");
 
         // when
         DesiredCapabilities convertedCapabilities = chromeCapabilitiesConverter.convert(properties);
@@ -37,7 +39,6 @@ public class ChromeCapabilitiesConverterTest {
         ChromeOptions expectedChromeOptions = new ChromeOptions();
         Map<String, Object> expectedMobileEmulation = new HashMap<>();
         Map<String, Object> expectedDeviceMetrics = new HashMap<>();
-        Map<String, Object> prefs = new HashMap<>();
         expectedDeviceMetrics.put("width", 378);
         expectedDeviceMetrics.put("height", 664);
         expectedDeviceMetrics.put(CAPABILITY_PIXEL_RATIO, 3.0);
@@ -46,11 +47,9 @@ public class ChromeCapabilitiesConverterTest {
         expectedMobileEmulation.put(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
         expectedChromeOptions.setExperimentalOption("mobileEmulation", expectedMobileEmulation);
 
-        prefs.put("profile.password_manager_enabled", "false");
-        prefs.put("credentials_enable_service", "false");
-        expectedChromeOptions.setExperimentalOption("prefs", prefs);
-
-        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
+        expectedChromeOptions.addArguments("--disable-device-discovery-notifications");
+        expectedChromeOptions.addArguments("--disable-infobars");
+        expectedChromeOptions.addArguments("headless", "disable-gpu");
 
         ChromeOptions actualChromeOptions;
         actualChromeOptions = (ChromeOptions) convertedCapabilities.getCapability(ChromeOptions.CAPABILITY);
@@ -69,16 +68,12 @@ public class ChromeCapabilitiesConverterTest {
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         ChromeOptions expectedChromeOptions = new ChromeOptions();
-        Map<String, Object> prefs = new HashMap<>();
-
-        prefs.put("profile.password_manager_enabled", "false");
-        prefs.put("credentials_enable_service", "false");
-        expectedChromeOptions.setExperimentalOption("prefs", prefs);
-        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
+        expectedChromeOptions.addArguments("--disable-device-discovery-notifications");
+        expectedChromeOptions.addArguments("--disable-infobars");
         expectedCapabilities.setCapability(ChromeOptions.CAPABILITY, expectedChromeOptions);
 
         assertThat(convertedCapabilities.getCapability(ChromeOptions.CAPABILITY)).isEqualTo(expectedChromeOptions);
@@ -89,8 +84,8 @@ public class ChromeCapabilitiesConverterTest {
     public void notSettingDeviceMetrics() throws IOException {
         // given
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_DEVICE_NAME, IPHONE_DEVICE);
-        properties.setProperty(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
+        properties.setProperty("device", IPHONE_DEVICE);
+        properties.setProperty("userAgent", ANY_USER_AGENT);
 
         // when
         DesiredCapabilities convertedCapabilities = chromeCapabilitiesConverter.convert(properties);
@@ -99,14 +94,12 @@ public class ChromeCapabilitiesConverterTest {
         // expected chrome options
         ChromeOptions expectedChromeOptions = new ChromeOptions();
         Map<String, Object> expectedMobileEmulation = new HashMap<>();
-        Map<String, Object> prefs = new HashMap<>();
         expectedMobileEmulation.put(CAPABILITY_DEVICE_NAME, IPHONE_DEVICE);
         expectedMobileEmulation.put(CAPABILITY_USER_AGENT, ANY_USER_AGENT);
         expectedChromeOptions.setExperimentalOption("mobileEmulation", expectedMobileEmulation);
-        prefs.put("profile.password_manager_enabled", "false");
-        prefs.put("credentials_enable_service", "false");
-        expectedChromeOptions.setExperimentalOption("prefs", prefs);
-        expectedChromeOptions.addArguments("disable-device-discovery-notifications");
+
+        expectedChromeOptions.addArguments("--disable-device-discovery-notifications");
+        expectedChromeOptions.addArguments("--disable-infobars");
 
         ChromeOptions actualChromeOptions;
         actualChromeOptions = (ChromeOptions) convertedCapabilities.getCapability(ChromeOptions.CAPABILITY);

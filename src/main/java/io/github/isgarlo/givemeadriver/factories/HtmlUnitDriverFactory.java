@@ -5,7 +5,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 
-public class HtmlUnitDriverFactory implements DriverFactory {
+class HtmlUnitDriverFactory implements DriverFactory {
 
     @Override
     public WebDriver createDriver(DesiredCapabilities capabilities) {

@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_DRIVER_VERSION;
 
 
-public class FirefoxDriverFactory implements DriverFactory {
+class FirefoxDriverFactory implements DriverFactory {
 
     @Override
     public WebDriver createDriver(DesiredCapabilities capabilities) {

@@ -7,6 +7,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 
 
 public class GenericCapabilitiesConverterTest {
@@ -24,26 +25,7 @@ public class GenericCapabilitiesConverterTest {
         // then
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
-        expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
-
-        assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
-    }
-
-    @Test
-    public void settingSslCertsToFalse() {
-        // given
-        WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_ACCEPT_SSL_CERTS, "false");
-
-        // when
-        DesiredCapabilities convertedCapabilities = genericCapabilitiesConverter.convert(properties);
-
-        // then
-        // expected chrome capabilities
-        DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, false);
+        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
@@ -54,7 +36,7 @@ public class GenericCapabilitiesConverterTest {
     public void settingDriverVersion() {
         // given
         WebDriverProperties properties = new WebDriverProperties();
-        properties.setProperty(CAPABILITY_DRIVER_VERSION, "2.25");
+        properties.setProperty("driverVersion", "2.25");
 
         // when
         DesiredCapabilities convertedCapabilities = genericCapabilitiesConverter.convert(properties);
@@ -62,7 +44,7 @@ public class GenericCapabilitiesConverterTest {
         // then
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(CAPABILITY_DRIVER_VERSION, "2.25");
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);

@@ -5,9 +5,9 @@ import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_ACCEPT_SSL_CERTS;
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_AUTOCLOSE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 
 
 public class RemoteCapabilitiesConverterTest {
@@ -25,7 +25,7 @@ public class RemoteCapabilitiesConverterTest {
         // then
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
@@ -41,7 +41,6 @@ public class RemoteCapabilitiesConverterTest {
         properties.setProperty("browser", "firefox");
         properties.setProperty("browser_version", "48.0");
         properties.setProperty("resolution", "1680x1050");
-        properties.setProperty(CAPABILITY_ACCEPT_SSL_CERTS, "false");
 
         // when
         DesiredCapabilities convertedCapabilities = remoteCapabilitiesConverter.convert(properties);
@@ -55,7 +54,7 @@ public class RemoteCapabilitiesConverterTest {
         expectedCapabilities.setCapability("browser", "firefox");
         expectedCapabilities.setCapability("browser_version", "48.0");
         expectedCapabilities.setCapability("resolution", "1680x1050");
-        expectedCapabilities.setCapability(CAPABILITY_ACCEPT_SSL_CERTS, false);
+        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
