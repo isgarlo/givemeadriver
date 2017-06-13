@@ -37,16 +37,31 @@ Then, simply get your WebDriver instance:
 ```java
 @Test
 public void test() {
-	WebDriver driver = GiveMeADriver.create();
+  WebDriver driver = GiveMeADriver.create();
 }
 ```
-## Special capabilities
- - **capabilities.remote**: remote url. If not set, GiveMeADriver.create() will instantiate a local driver.
- - **capabilities.browser**: *chrome* by default, so if you´re testing in Chrome, you can skip this one.
- - **capabilities.autoclose**: *true* by default. GiveMeADriver will close the browser for you once the last test has been executed. That means there is no need to call the quit() method.
- - **capabilities.driverVersion**: if set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
+## Capabilities setup
+Capability | Description
+------------ | -----------
+**capabilities.remote** | Remote url. If not set, GiveMeADriver.create() will instantiate a local driver.
+**capabilities.browser** | *chrome* by default, so if you´re testing in Chrome, you can skip this one.
+**capabilities.browserSize** | A value in the format *1024x768*. If set, the browser window will be resized.
+**capabilities.headless** | *false* by default. If set to true, GiveMeADriver will return the headless version of the requested browser. Chrome is now supporting it!
+**capabilities.autoclose** | *true* by default. GiveMeADriver will close the browser for you once the last test has been executed. That means there is no need to call the quit() method.
+**capabilities.driverVersion** | If set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
+**capabilities.device** | Make use of the [Chrome Mobile Emulation](https://sites.google.com/a/chromium.org/chromedriver/mobile-emulation) to test on devices. Check the available ones [here](https://cs.chromium.org/chromium/src/chrome/test/chromedriver/chrome/mobile_device_list.cc).
+**capabilities.userAgent** | Set your custom user agent string.
+**capabilities.viewportSize** | A value in the format *414x736*. If set, the viewport will be resized.
+**capabilities.pixelRatio** | A value in the format *2.0* to manually define the device pixel ratio.
 
- Please refer to the below documentation for a complete list of capabilities of the main cloud services.
+Additionally, some capabilities can be refered by their aliases:
+
+Capability | Aliases
+------------ | -----------
+**capabilities.browser** | **capabilities.browserName**, **browser**
+**capabilities.device** | **capabilities.deviceName**, **device**
+
+For a complete list of capabilities of the main cloud services take a look to the following links:
 - https://www.browserstack.com/automate/capabilities
 - https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options
 - https://testingbot.com/support/other/test-options
@@ -64,54 +79,78 @@ GiveMeADriver.close();
 ```java
 public class LocalDriverTest {
 
-	WebDriver driver;
+  WebDriver driver;
 
-	@Before
-	public void setup() {
-		// setting capabilities programmatically
-		System.setProperty("capabilities.browser", "firefox");
-		System.setProperty("capabilities.driverVersion", "0.11.4");
-		driver = GiveMeADriver.create();
-	}
-
-	@Test
-	public void myTest() {
-		// use the driver here or
-		// get it by GiveMeADriver.current();
-	}
+  @Before
+  public void setup() {
+    // setting capabilities programmatically
+    System.setProperty("capabilities.browser", "firefox");
+    System.setProperty("capabilities.driverVersion", "0.11.4");
+    driver = GiveMeADriver.create();
+  }
+  
+  @Test
+  public void myTest() {
+    // use the driver here or
+    // get it by GiveMeADriver.current();
+  }
 	
-	@After
-	public void tearDown() {
-		// no need to driver.quit(); nor GiveMeADriver.close();
-		// if capabilities.autoclose=true
-	}
+  @After
+  public void tearDown() {
+    // no need to driver.quit(); nor GiveMeADriver.close();
+    // if capabilities.autoclose=true
+  }
 }
 ```
 Notice that **capabilities.remote** has not been set. A local Firefox browser will be open.
-Currently, the local supported browsers are: *chrome*, *firefox*, *opera*, *safari*, *ie*, *edge*, *phantomjs*.
+Currently, the local supported browsers are: *chrome*, *firefox*, *opera*, *safari*, *ie*, *edge*, *phantomjs*, *htmlunit*.
 
 2. Create a local driver: Chrome with latest binaries.
 ```java
 public class LocalDriverTest {
 	
-	@Test
-	public void createLocalDriver() {
-		WebDriver driver = GiveMeADriver.create();
-	}
+  @Test
+  public void createLocalDriver() {
+    GiveMeADriver.create();
+  }
 }
 ```
 3. Create a remote driver: Chrome 57 in BrowserStack.
 ```java
 public class RemoteDriverTest {
 	
-	@Test
-	public void createRemoteDriver() {
-		System.setProperty("capabilities.remote", 
-			"https://USERNAME:AUTH_KEY@hub-cloud.browserstack.com/wd/hub");
-		System.setProperty("capabilities.browser", "chrome");
-		System.setProperty("capabilities.browser_version", "57");
-		WebDriver driver = GiveMeADriver.create();
-	}
+  @Test
+  public void createRemoteDriver() {
+    System.setProperty("capabilities.remote", 
+      "https://USERNAME:AUTH_KEY@hub-cloud.browserstack.com/wd/hub");
+    System.setProperty("capabilities.browser", "chrome");
+    System.setProperty("capabilities.browser_version", "57");
+    GiveMeADriver.create();
+  }
 }
 ```
- 
+4. Create a local mobile emulator: iPhone 6.
+ ```java
+public class LocalDriverTest {
+	
+  @Test
+  public void createLocalDriver() {
+    System.setProperty("capabilities.device", "iPhone 6");
+    GiveMeADriver.create();
+  }
+}
+```
+5. Create a custom local mobile emulator: Generic Apple device at 1024x1366
+ ```java
+public class LocalDriverTest {
+	
+  @Test
+  public void createLocalDriver() {
+    System.setProperty("capabilities.userAgent", 
+	    "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1");
+    System.setProperty("capabilities.viewportSize", "1024x1366");
+    System.setProperty("capabilities.pixelRatio", "2.0");
+    GiveMeADriver.create();
+  }
+}
+```
