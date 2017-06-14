@@ -22,13 +22,9 @@
         <selenium.version>3.4.0</selenium.version>
         <webdrivermanager.version>1.6.2</webdrivermanager.version>
         <slf4j-simple.version>1.7.25</slf4j-simple.version>
-        <commons-configuration2.version>2.0</commons-configuration2.version>
-        <log4j-api.version>2.7</log4j-api.version>
-        <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <guava.version>21.0</guava.version>
+        <log4j-api.version>2.8.2</log4j-api.version>
+        <guava.version>22.0</guava.version>
         <assertj-core.version>3.8.0</assertj-core.version>
-        <powermock.version>1.6.6</powermock.version>
     </properties>
 
     <name>GiveMeADriver</name>
@@ -79,11 +75,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j-simple.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>${commons-configuration2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
