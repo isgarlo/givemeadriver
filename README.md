@@ -46,7 +46,7 @@ Capability | Description
 **capabilities.remote** | Remote url. If not set, GiveMeADriver.create() will instantiate a local driver.
 **capabilities.browser** | *chrome* by default, so if you´re testing in Chrome, you can skip this one.
 **capabilities.browserSize** | A value in the format *1024x768*. If set, the browser window will be resized.
-**capabilities.headless** | *false* by default. If set to true, GiveMeADriver will return the headless version of the requested browser. Chrome is now supporting it!
+**capabilities.headless** | *false* by default. If set to true, GiveMeADriver will return the headless version of the requested browser. [Chrome](https://developers.google.com/web/updates/2017/04/headless-chrome) is now supporting it!
 **capabilities.autoclose** | *true* by default. GiveMeADriver will close the browser for you once the last test has been executed. That means there is no need to call the quit() method.
 **capabilities.driverVersion** | If set, the specified binary version will be downloaded to create a local driver. If not, the latest binary version will be fetched.
 **capabilities.device** | Make use of the [Chrome Mobile Emulation](https://sites.google.com/a/chromium.org/chromedriver/mobile-emulation) to test on devices. Check the available ones [here](https://cs.chromium.org/chromium/src/chrome/test/chromedriver/chrome/mobile_device_list.cc).
