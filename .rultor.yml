@@ -6,6 +6,9 @@ decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
   secring.gpg: "repo/secring.gpg.asc"
+env:
+  MAVEN_OPTS: -XX:MaxPermSize=256m -Xmx1g
+  JAVA_OPTS: -XX:MaxPermSize=256m -Xmx1g
 merge:
   script: |-
     mvn clean install --errors --settings ../settings.xml
