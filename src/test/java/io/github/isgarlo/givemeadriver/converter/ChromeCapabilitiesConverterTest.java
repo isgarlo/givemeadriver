@@ -69,7 +69,7 @@ public class ChromeCapabilitiesConverterTest {
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         ChromeOptions expectedChromeOptions = new ChromeOptions();
         expectedChromeOptions.addArguments("--disable-device-discovery-notifications");

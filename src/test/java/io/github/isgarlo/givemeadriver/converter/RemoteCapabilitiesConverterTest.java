@@ -26,7 +26,7 @@ public class RemoteCapabilitiesConverterTest {
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
@@ -55,7 +55,7 @@ public class RemoteCapabilitiesConverterTest {
         expectedCapabilities.setCapability("browser_version", "48.0");
         expectedCapabilities.setCapability("resolution", "1680x1050");
         expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }

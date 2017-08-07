@@ -21,7 +21,7 @@ public class WebDriverPropertiesTest {
         WebDriverProperties props = new WebDriverProperties(new HashMap<String, String>());
 
         assertThat(props.getBrowser()).isEqualTo("chrome");
-        assertThat(props.isAutoClose()).isTrue();
+        assertThat(props.isAutoClose()).isFalse();
         assertThat(props.getRemote()).isEmpty();
         assertThat(props.getDeviceName()).isEmpty();
         assertThat(props.getUserAgent()).isEmpty();

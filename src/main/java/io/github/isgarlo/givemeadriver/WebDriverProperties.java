@@ -73,7 +73,7 @@ public class WebDriverProperties {
 
     public boolean isAutoClose() {
         return Boolean.valueOf(Optional.ofNullable(getProperty(CAPABILITY_AUTOCLOSE))
-                .orElse("true"));
+                .orElse("false"));
     }
 
     public boolean isHeadless() {

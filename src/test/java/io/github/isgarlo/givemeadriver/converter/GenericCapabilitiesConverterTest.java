@@ -27,7 +27,7 @@ public class GenericCapabilitiesConverterTest {
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
         expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
@@ -47,7 +47,7 @@ public class GenericCapabilitiesConverterTest {
         expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_BROWSER_NAME, "chrome");
         expectedCapabilities.setCapability(CAPABILITY_DRIVER_VERSION, "2.25");
-        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, true);
+        expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
     }
