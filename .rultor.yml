@@ -20,6 +20,6 @@ release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Psonatype -Pgivemeadriver --errors --settings ../settings.xml
+    mvn clean deploy -Pgivemeadriver --errors --settings ../settings.xml
   commanders:
   - isgarlo
