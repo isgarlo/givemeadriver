@@ -5,6 +5,9 @@ import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.junit.Test;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_AUTOCLOSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
@@ -32,7 +35,7 @@ public class RemoteCapabilitiesConverterTest {
     }
 
     @Test
-    public void settingManyRemoteCapabilities() {
+    public void settingManyRemoteCapabilities() throws MalformedURLException {
         // given
         WebDriverProperties properties = new WebDriverProperties();
         properties.setProperty("remote", "https://remote.grid.url");
@@ -48,7 +51,7 @@ public class RemoteCapabilitiesConverterTest {
         // then
         // expected chrome capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability("remote", "https://remote.grid.url");
+        expectedCapabilities.setCapability("remote", new URL("https://remote.grid.url"));
         expectedCapabilities.setCapability("os", "windows");
         expectedCapabilities.setCapability("os_version", "7");
         expectedCapabilities.setCapability("browser", "firefox");
