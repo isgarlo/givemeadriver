@@ -44,12 +44,12 @@ public class CapabilitiesConverterFactoryTest {
     }
 
     @Test
-    public void createGenericCapabilitiesConverter() {
+    public void createHtmlUnitCapabilitiesConverter() {
         // given
-        CapabilitiesConverter expectedConverter = mock(GenericCapabilitiesConverter.class);
-        when(converterFactory.create(DriverType.FIREFOX)).thenReturn(expectedConverter);
+        CapabilitiesConverter expectedConverter = mock(HtmlUnitCapabilitiesConverter.class);
+        when(converterFactory.create(DriverType.HTMLUNIT)).thenReturn(expectedConverter);
         // when
-        CapabilitiesConverter builtFactory = converterFactory.create(DriverType.FIREFOX);
+        CapabilitiesConverter builtFactory = converterFactory.create(DriverType.HTMLUNIT);
         // then
         assertThat(builtFactory).isEqualTo(expectedConverter);
     }

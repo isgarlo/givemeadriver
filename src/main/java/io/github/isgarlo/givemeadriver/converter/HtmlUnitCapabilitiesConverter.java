@@ -5,20 +5,24 @@ import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_AUTOCLOSE;
-import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_BROWSER_SIZE;
+import static io.github.isgarlo.givemeadriver.WebDriverProperties.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-class RemoteCapabilitiesConverter implements CapabilitiesConverter {
+class HtmlUnitCapabilitiesConverter implements CapabilitiesConverter {
+
 
     @Override
     public Capabilities convert(WebDriverProperties properties) {
-        DesiredCapabilities capabilities = new DesiredCapabilities(properties.asMap());
+        DesiredCapabilities capabilities = new DesiredCapabilities();
 
+        // general options for logging purpose
+        capabilities.setCapability(CAPABILITY_BROWSER_NAME, properties.getBrowser());
         capabilities.setCapability(CAPABILITY_AUTOCLOSE, properties.isAutoClose());
         if (isNotEmpty(properties.getBrowserSize())) {
             capabilities.setCapability(CAPABILITY_BROWSER_SIZE, properties.getBrowserSize());
         }
+
         return capabilities;
     }
+
 }

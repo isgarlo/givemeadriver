@@ -3,14 +3,13 @@ package io.github.isgarlo.givemeadriver.converter;
 
 import io.github.isgarlo.givemeadriver.WebDriverProperties;
 import org.junit.Test;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import static io.github.isgarlo.givemeadriver.WebDriverProperties.CAPABILITY_AUTOCLOSE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 
 
 public class RemoteCapabilitiesConverterTest {
@@ -23,12 +22,11 @@ public class RemoteCapabilitiesConverterTest {
         WebDriverProperties properties = new WebDriverProperties();
 
         // when
-        DesiredCapabilities convertedCapabilities = remoteCapabilitiesConverter.convert(properties);
+        Capabilities convertedCapabilities = remoteCapabilitiesConverter.convert(properties);
 
         // then
-        // expected chrome capabilities
+        // expected capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);
@@ -44,20 +42,21 @@ public class RemoteCapabilitiesConverterTest {
         properties.setProperty("browser", "firefox");
         properties.setProperty("browser_version", "48.0");
         properties.setProperty("resolution", "1680x1050");
+        properties.setProperty("browserSize", "14400x1050");
 
         // when
-        DesiredCapabilities convertedCapabilities = remoteCapabilitiesConverter.convert(properties);
+        Capabilities convertedCapabilities = remoteCapabilitiesConverter.convert(properties);
 
         // then
-        // expected chrome capabilities
+        // expected capabilities
         DesiredCapabilities expectedCapabilities = new DesiredCapabilities();
-        expectedCapabilities.setCapability("remote", new URL("https://remote.grid.url"));
+        expectedCapabilities.setCapability("remote","https://remote.grid.url");
         expectedCapabilities.setCapability("os", "windows");
         expectedCapabilities.setCapability("os_version", "7");
         expectedCapabilities.setCapability("browser", "firefox");
         expectedCapabilities.setCapability("browser_version", "48.0");
         expectedCapabilities.setCapability("resolution", "1680x1050");
-        expectedCapabilities.setCapability(ACCEPT_SSL_CERTS, true);
+        expectedCapabilities.setCapability("browserSize", "14400x1050");
         expectedCapabilities.setCapability(CAPABILITY_AUTOCLOSE, false);
 
         assertThat(convertedCapabilities).isEqualTo(expectedCapabilities);

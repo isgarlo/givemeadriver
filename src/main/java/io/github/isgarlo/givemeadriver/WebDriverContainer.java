@@ -3,10 +3,7 @@ package io.github.isgarlo.givemeadriver;
 import io.github.isgarlo.givemeadriver.factories.DriverType;
 import io.github.isgarlo.givemeadriver.factories.FactoryHandler;
 import io.github.isgarlo.givemeadriver.factories.IFactoryHandler;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +18,7 @@ class WebDriverContainer {
     WebDriverCleanupThread cleanupThread = new WebDriverCleanupThread();
     WebDriver WEB_DRIVER;
 
-    WebDriver createDriver(DriverType type, DesiredCapabilities capabilities) {
+    WebDriver createDriver(DriverType type, Capabilities capabilities) {
         checkState(WEB_DRIVER == null,
                 "There is a driver already open. Only one instance allowed.");
 
