@@ -20,7 +20,7 @@ In order to use GiveMeADriver, add the following dependency to your Maven projec
 <dependency>
   <groupId>io.github.isgarlo</groupId>
   <artifactId>givemeadriver</artifactId>
-  <version>0.0.9</version>
+  <version>1.0</version>
 </dependency>
 ```
 
@@ -75,7 +75,7 @@ GiveMeADriver.close();
 ```
 
 ## Examples
-1. Create a local driver: Firefox with driver binary 0.11.4
+1. Create a local driver: Firefox with driver binary 0.19.1
 ```java
 public class LocalDriverTest {
 
@@ -85,7 +85,7 @@ public class LocalDriverTest {
   public void setup() {
     // setting capabilities programmatically
     System.setProperty("capabilities.browser", "firefox");
-    System.setProperty("capabilities.driverVersion", "0.11.4");
+    System.setProperty("capabilities.driverVersion", "0.19.1");
     driver = GiveMeADriver.create();
   }
   
@@ -115,7 +115,7 @@ public class LocalDriverTest {
   }
 }
 ```
-3. Create a remote driver: Chrome 57 in BrowserStack.
+3. Create a remote driver: Chrome 62 in BrowserStack.
 ```java
 public class RemoteDriverTest {
 	
@@ -124,7 +124,7 @@ public class RemoteDriverTest {
     System.setProperty("capabilities.remote", 
       "https://USERNAME:AUTH_KEY@hub-cloud.browserstack.com/wd/hub");
     System.setProperty("capabilities.browser", "chrome");
-    System.setProperty("capabilities.browser_version", "57");
+    System.setProperty("capabilities.browser_version", "62");
     GiveMeADriver.create();
   }
 }
