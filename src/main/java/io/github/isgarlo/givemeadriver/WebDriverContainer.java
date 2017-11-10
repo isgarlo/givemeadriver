@@ -24,7 +24,7 @@ class WebDriverContainer {
 
         WEB_DRIVER = factory.create(type).createDriver(capabilities);
         log.info("Created " + WEB_DRIVER);
-        log.info(capabilities.toString());
+        log.info(capabilities.asMap().toString());
 
         return WEB_DRIVER;
     }
